@@ -1,0 +1,9 @@
+.search {
+	margin-bottom: 34px;
+	@media (max-width:768px) {
+		margin-bottom: 10px;
+	}
+	input {
+		padding: 8px 12px;
+	}
+}

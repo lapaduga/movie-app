@@ -1,0 +1,10 @@
+.main {
+	max-width: 1010px;
+	margin: 0 auto;
+	padding: 0 36px;
+	background-color: #fff;
+	min-height: 100vh;
+	@media (max-width:768px) {
+		padding: 0 16px;
+	}
+}

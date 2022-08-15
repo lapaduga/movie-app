@@ -1,0 +1,18 @@
+.header {
+	padding-top: 13px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ant-tabs {
+	color: rgba(0, 0, 0, 0.65);
+}
+.ant-tabs-tab + .ant-tabs-tab {
+	margin: 0 0 0 16px !important;
+}
+.ant-tabs-content-holder {
+	margin-top: 3px;
+}
+.ant-tabs-tab-btn {
+	padding: 8px 10px;
+}
