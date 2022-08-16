@@ -3,9 +3,10 @@
 	padding-inline-start: 0px;
 	display: flex;
 	flex-wrap: wrap;
-	margin: 0 -18px;
+	margin: 0 -18px 18px -18px;
 	@media (max-width: 1009px) {
 		justify-content: center;
+		margin: 0 -18px;
 	}
 	& > li {
 		display: flex;
@@ -82,6 +83,7 @@
 					-webkit-box-orient: vertical;
 					overflow: hidden;
 					height: 129px;
+					margin-bottom: 10px;
 				}
 				.ant-rate {
 					display: flex;
@@ -92,6 +94,71 @@
 					}
 				}
 			}
+		}
+		@media (max-width: 1009px) {
+			padding: 0 18px 20px 18px;
+		}
+		@media (max-width: 550px) {
+			position: relative;
+			.ant-image {
+				position: absolute;
+				top: 6px;
+				left: 28px;
+				width: 60px !important;
+				height: 91px !important;
+				z-index: 1;
+				img {
+					width: 60px !important;
+					height: 91px !important;
+				}
+			}
+			.ant-card {
+				width: 387px !important;
+				height: 245px;
+				.ant-card-head {
+					min-height: 44px;
+					.ant-card-head-title {
+						padding: 4px 8px 0px 20px;
+					}
+					.card-top {
+						padding-left: 63px;
+					}
+				}
+				.ant-card-body {
+					padding: 0 10px;
+					.ant-card-meta {
+						padding-left: 73px;
+					}
+					.tags {
+						padding-left: 73px;
+						margin-bottom: 20px;
+					}
+					p {
+						-webkit-line-clamp: 4;
+						height: 90px;
+					}
+					.ant-rate {
+						justify-content: flex-end;
+					}
+				}
+			}
+		}
+		@media (max-width:450px) {
+			.ant-card {
+				width: 100% !important;
+			}
+		}
+	}
+}
+.ant-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.ant-pagination-item-active {
+		background: #1890ff;
+		border-radius: 4px;
+		a {
+			color: #ffffff;
 		}
 	}
 }
