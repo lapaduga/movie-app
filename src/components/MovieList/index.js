@@ -1,5 +1,5 @@
 import './MovieList.scss'
-import { Image, Card, Tag, Rate, Pagination } from 'antd'
+import { Image, Card, Tag, Rate, Pagination, Alert, Spin } from 'antd'
 import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
 
@@ -8,6 +8,13 @@ import MovieFinder from '../../service/MovieFinder'
 
 export default function MovieList() {
   const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  const onError = () => {
+    setError(true)
+    setLoading(false)
+  }
 
   const mFinder = new MovieFinder()
   useEffect(() => {
@@ -27,7 +34,9 @@ export default function MovieList() {
           })
         })
         setMovies([...tempArr])
+        setLoading(false)
       })
+      .catch(onError)
   }, [])
 
   const shortenText = (text) => {
@@ -38,6 +47,29 @@ export default function MovieList() {
       return newStr
     }
     return text
+  }
+
+  if (loading) {
+    return (
+      <Spin tip="Loading...">
+        <Alert
+          message="Getting information from TMDB"
+          description="Please, wait for a second"
+          type="info"
+        />
+      </Spin>
+    )
+  }
+
+  if (error) {
+    return (
+      <Alert
+        message="Something went wrong..."
+        description="Unfortunately we are having troubles with TMDB. Try to send request a bit later."
+        type="error"
+        closable
+      />
+    )
   }
 
   return (
