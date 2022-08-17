@@ -42,6 +42,12 @@
 						span {
 							display: block;
 							margin-right: 10px;
+							max-width: 198px;
+							word-break: break-word;
+							text-overflow: ellipsis;
+							-webkit-line-clamp: 1;
+							-webkit-box-orient: horizontal;
+							overflow: hidden;
 						}
 						.rating {
 							font-size: 12px;
@@ -143,9 +149,18 @@
 				}
 			}
 		}
-		@media (max-width:450px) {
+		@media (max-width: 450px) {
 			.ant-card {
 				width: 100% !important;
+				.ant-card-head {
+					.ant-card-head-title {
+						.card-top {
+							span {
+								max-width: 155px;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
