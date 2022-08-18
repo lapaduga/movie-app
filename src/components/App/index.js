@@ -1,6 +1,6 @@
 import './App.scss'
 import { useState } from 'react'
-//import debounce from 'lodash.chunk'
+import debounce from 'lodash.debounce'
 
 import Header from '../Header'
 import Search from '../Search'
@@ -13,9 +13,10 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [pages, setPages] = useState(0)
+  const [paginationPage, setPaginationPage] = useState(1)
   const mFinder = new MovieFinder()
 
-  function debounce(fn, debounceTime) {
+  /* function debounce(fn, debounceTime) {
     let timer
     return function (...args) {
       clearTimeout(timer)
@@ -23,7 +24,7 @@ function App() {
         fn.apply(this, args)
       }, debounceTime)
     }
-  }
+  } */
 
   const onError = () => {
     setError(true)
@@ -61,19 +62,24 @@ function App() {
   const debouncedChangeValue = debounce(changeValue, 1000)
 
   const changePage = (value, page) => {
+    setPaginationPage(page)
     changeValue(value, page)
   }
 
   return (
     <main className="main">
       <Header />
-      <Search onChange={debouncedChangeValue} />
+      <Search
+        onChange={debouncedChangeValue}
+        setInitialPage={setPaginationPage}
+      />
       <MovieList
         keyWord={keyWord}
         movies={movies}
         loading={loading}
         error={error}
         pages={pages}
+        paginationPage={paginationPage}
         changePage={changePage}
       />
     </main>

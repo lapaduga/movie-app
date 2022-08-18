@@ -1,7 +1,6 @@
 import './MovieList.scss'
 import { Image, Card, Tag, Rate, Pagination, Alert, Spin } from 'antd'
 import { format } from 'date-fns'
-import { useState } from 'react'
 
 const { Meta } = Card
 
@@ -11,9 +10,9 @@ export default function MovieList({
   loading,
   keyWord,
   pages,
-  changePage
+  changePage,
+  paginationPage
 }) {
-  const [currentPage, setCurrentPage] = useState(1)
   const shortenText = (text) => {
     if (text.length > 200) {
       let str = text.slice(0, 200)
@@ -112,10 +111,9 @@ export default function MovieList({
       </ul>
       <Pagination
         onChange={(page) => {
-          setCurrentPage(page)
           changePage(keyWord, page)
         }}
-        current={currentPage}
+        current={paginationPage}
         defaultPageSize={20}
         size="small"
         total={pages}
