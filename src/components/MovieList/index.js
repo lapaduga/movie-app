@@ -1,44 +1,19 @@
 import './MovieList.scss'
 import { Image, Card, Tag, Rate, Pagination, Alert, Spin } from 'antd'
-import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
+import { useState } from 'react'
 
 const { Meta } = Card
-import MovieFinder from '../../service/MovieFinder'
 
-export default function MovieList() {
-  const [movies, setMovies] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  const onError = () => {
-    setError(true)
-    setLoading(false)
-  }
-
-  const mFinder = new MovieFinder()
-  useEffect(() => {
-    mFinder
-      .getData(
-        'https://api.themoviedb.org/3/search/movie?api_key=2062761ca6ba3d41c1bdd751dc896bcb&language=en-US&query=return&page=1&include_adult=false'
-      )
-      .then((body) => {
-        const tempArr = []
-        body.results.forEach((item) => {
-          tempArr.push({
-            id: item.id,
-            title: item.original_title,
-            image: item.backdrop_path,
-            date: item.release_date,
-            overview: item.overview
-          })
-        })
-        setMovies([...tempArr])
-        setLoading(false)
-      })
-      .catch(onError)
-  }, [])
-
+export default function MovieList({
+  movies,
+  error,
+  loading,
+  keyWord,
+  pages,
+  changePage
+}) {
+  const [currentPage, setCurrentPage] = useState(1)
   const shortenText = (text) => {
     if (text.length > 200) {
       let str = text.slice(0, 200)
@@ -47,6 +22,10 @@ export default function MovieList() {
       return newStr
     }
     return text
+  }
+
+  if (!keyWord) {
+    return <Alert message="Type in the movie name" type="info" />
   }
 
   if (loading) {
@@ -65,11 +44,30 @@ export default function MovieList() {
     return (
       <Alert
         message="Something went wrong..."
-        description="Unfortunately we are having troubles with TMDB. Try to send request a bit later."
+        description="Unfortunately we are having troubles with TMDB. We are working on fixing it."
         type="error"
         closable
       />
     )
+  }
+
+  if (!navigator.onLine) {
+    return (
+      <Alert
+        message="No connection..."
+        description="Unfortunately you have been disconnected. Try to send request a bit later."
+        type="error"
+        closable
+      />
+    )
+  }
+
+  if (movies.length === 0) {
+    if (keyWord) {
+      return (
+        <Alert message="There is no such movie in our database" type="info" />
+      )
+    }
   }
 
   return (
@@ -95,7 +93,11 @@ export default function MovieList() {
                 style={{ width: 268 }}
               >
                 <Meta
-                  description={format(new Date(item.date), 'MMMM d, yyy')}
+                  description={
+                    item.date
+                      ? format(new Date(item.date), 'MMMM d, yyy')
+                      : 'Is coming'
+                  }
                 />
                 <div className="tags">
                   <Tag>Action</Tag>
@@ -108,7 +110,17 @@ export default function MovieList() {
           )
         })}
       </ul>
-      <Pagination size="small" total={50} />
+      <Pagination
+        onChange={(page) => {
+          setCurrentPage(page)
+          changePage(keyWord, page)
+        }}
+        current={currentPage}
+        defaultPageSize={20}
+        size="small"
+        total={pages}
+        showSizeChanger={false}
+      />
     </>
   )
 }
